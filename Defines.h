@@ -17,6 +17,10 @@
 #define ALIEN2BMP 2
 #define ALIEN3BMP 3
 
+#define PLAYER_WIDTH 12
+#define ENEMY_WIDTH 15
+#define ENEMY_HEIGHT 10
+
 typedef struct {
   uint8_t x;
   uint8_t y;

@@ -8,7 +8,7 @@
 
 class Game {
 public:
-  Game(Arduboy2 &arduboy, Player &player, Enemies &enemies, Timer &timer);
+  Game(Arduboy2 &arduboy, Enemies &enemies, Timer &timer);
   void update();  
   void draw(); //Draws everything
 

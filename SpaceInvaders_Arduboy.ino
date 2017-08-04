@@ -2,20 +2,18 @@
 
 #include "Defines.h"
 #include "Enemies.h"
-#include "Player.h"
-#include "Bitmaps.h"
+//#include "Bitmaps.h"
 #include "Menu.h"
-#include "Timer.h"
+//#include "Timer.h"
 #include "Game.h"
 
 
 Arduboy2 ardu;
 
-Player player(ardu);
 Enemies enemies(ardu);
 Menu menu(ardu);
 Timer timer(ardu);
-Game game(ardu,player,enemies,timer);
+Game game(ardu,enemies,timer);
 
 byte gamestate; // 0 = Menu | 1 = Playing | 2 = High scores
 
@@ -35,7 +33,7 @@ void setup() {
 }
 
 void loop() {
-  if (!ardu.nextFrame()) {
+  if (!ardu.nextFrameDEV()) {
     return; 
   }
   ardu.pollButtons();
@@ -45,8 +43,8 @@ void loop() {
   } else if (gamestate == 1) {
     game.update();
     game.draw(); 
-    ardu.setCursor(1,58); 
-    ardu.print(ardu.cpuLoad());
+//    ardu.setCursor(1,56); 
+//    ardu.print(ardu.cpuLoad());
   } else if (gamestate == 2) {
     
   }

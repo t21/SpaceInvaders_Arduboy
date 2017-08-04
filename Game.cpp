@@ -1,10 +1,12 @@
 #include "Game.h"
 
-Game::Game(Arduboy2 &arduboy, Player &player, Enemies &enemies, Timer &timer) {
+Game::Game(Arduboy2 &arduboy, Enemies &enemies, Timer &timer) {
   this->ardu = &arduboy;
-  this->player = &player;
+//  this->player = &player;
   this->enemies = &enemies;
   this->timer = &timer;
+
+  this->player = new Player(arduboy);
 }
 
 void Game::setPause(bool state) {
@@ -28,7 +30,7 @@ void Game::update() {
   //}
 
   //Timer
-  timer->incTimer();
+//  timer->incTimer();
   
   //Keys
   if (ardu->pressed(LEFT_BUTTON)) {
@@ -51,20 +53,20 @@ void Game::update() {
   player->updateShot();
 
   //AI
-  enemies->update();
-  enemies->shoot();
+//  enemies->update();
+//  enemies->shoot();
 
   //Collision
-  collisionPlayer();
+//  collisionPlayer();
   
 }
 
 void Game::draw() {
-  if (timer->getTimer() % 2 && ardu->everyXFrames(90)) {
-    animframe = 0;  
-  } else if (timer->getTimer() % 2 && ardu->everyXFrames(60)) {
-    animframe = 1;
-  }
+//  if (timer->getTimer() % 2 && ardu->everyXFrames(90)) {
+//    animframe = 0;  
+//  } else if (timer->getTimer() % 2 && ardu->everyXFrames(60)) {
+//    animframe = 1;
+//  }
   
   enemies->draw(animframe);
   player->draw();  

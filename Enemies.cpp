@@ -3,7 +3,6 @@
 Enemies::Enemies(Arduboy2 &arduboy) {
   this->ardu = &arduboy;
   currentEnemy = 0;
-  enemyStep = 2;
 }
 
 
@@ -22,26 +21,32 @@ int Enemies::getRandomEnemy2() {
 
 void Enemies::init() {
   for (int i = 0; i < ENEMIESTOTAL; i++) {
+    // Set Y
     if (i <= ENEMIESTOTAL/ENEMYROWS) {
-      EnemiesOS[i].y = ENEM_STARTROW1_Y; 
+//      EnemiesOS[i].y = ENEM_STARTROW1_Y; 
       EnemiesOS[i].bitmap = ALIEN1BMP;
       EnemiesOS[i].alive = true;
     } else if (i <= (ENEMIESTOTAL/ENEMYROWS)*2) {
-      EnemiesOS[i].y = ENEM_STARTROW2_Y; 
+//      EnemiesOS[i].y = ENEM_STARTROW2_Y; 
       EnemiesOS[i].bitmap = ALIEN2BMP;
       EnemiesOS[i].alive = true;        
     } else if (i <= ENEMIESTOTAL) {
-      EnemiesOS[i].y = ENEM_STARTROW3_Y; 
+//      EnemiesOS[i].y = ENEM_STARTROW3_Y; 
       EnemiesOS[i].bitmap = ALIEN3BMP;
       EnemiesOS[i].alive = true;
     }
 
     //Set X
-    if (i == 0 || i == ENEMIESTOTAL/ENEMYROWS | i == (ENEMIESTOTAL/ENEMYROWS)*2) {
-      EnemiesOS[i].x = ENEM_START_X;
-    } else {
-      EnemiesOS[i].x = EnemiesOS[i-1].x + 16;
-    }
+//    if (i == 0 || i == ENEMIESTOTAL/ENEMYROWS | i == (ENEMIESTOTAL/ENEMYROWS)*2) {
+//      EnemiesOS[i].x = ENEM_START_X;
+//    } else {
+//      EnemiesOS[i].x = EnemiesOS[i-1].x + 16;
+//    }
+
+    byte enemiesPerRow = ENEMIESTOTAL / ENEMYROWS;
+    
+    EnemiesOS[i].x = ENEMY_WIDTH * (i % (ENEMIESTOTAL / ENEMYROWS)) + 16;
+    EnemiesOS[i].y = i / enemiesPerRow * ENEMY_HEIGHT + ENEM_STARTROW1_Y;
 
     //Init Shot
     EnemiesOS[i].shot.speed = 0.1f;
@@ -53,6 +58,8 @@ void Enemies::init() {
     EnemiesOS[i].shot.hitbox.width = 1;
     EnemiesOS[i].shot.hitbox.height = 3;
   }  
+
+  enemyDir = 0;
 }
 
 
@@ -66,32 +73,52 @@ void Enemies::moveDown() {
 
 
 void Enemies::update() {
-//  for (int i = 0; i < ENEMIESTOTAL; i++) {
-//    EnemiesOS[i].hitbox.x = EnemiesOS[i].x;
-//    EnemiesOS[i].hitbox.y = EnemiesOS[i].y;
-//    EnemiesOS[i].hitbox.width = 12;
-//    EnemiesOS[i].hitbox.height = 8;   
-//
-//    EnemiesOS[i].shot.hitbox.x = EnemiesOS[i].shot.x;
-//    EnemiesOS[i].shot.hitbox.y = EnemiesOS[i].shot.y;
-//  }
+    if (currentEnemy == 0) {
+        switch (enemyDir) {
+            case 0:
+                if (EnemiesOS[0].x > 40) {
+                    enemyDir = 1;
+                }
+                break;
+            case 1:
+                enemyDir = 2;
+                break;
+                
+            case 2:
+                if (EnemiesOS[0].x < 10) {
+                    enemyDir = 3;
+                }
+                break;
 
-  Serial.print("E:");
-  Serial.print(currentEnemy);
-  Serial.print(" ");
-  Serial.println(EnemiesOS[currentEnemy].x);
+            case 3:
+                enemyDir = 0;
+                break;
+        }
+    }
 
+    switch (enemyDir) {
+        case 0:
+            EnemiesOS[currentEnemy].x += 2;
+            break;
 
-  if (EnemiesOS[currentEnemy].x > 0 && EnemiesOS[currentEnemy].x < (127-12)) {
-    EnemiesOS[currentEnemy].x += enemyStep;
-  } else {
-    enemyStep = -enemyStep;
-  }
-  
-  currentEnemy++;
-  if (currentEnemy > (ENEMIESTOTAL-1)) {
-    currentEnemy = 0;
-  }
+        case 1:
+            EnemiesOS[currentEnemy].y += 2;
+            break;
+            
+        case 2:
+            EnemiesOS[currentEnemy].x -= 2;
+            break;            
+
+        case 3:
+            EnemiesOS[currentEnemy].y += 2;
+            break;
+            
+    }
+
+    currentEnemy++;
+    if (currentEnemy >= ENEMIESTOTAL) {
+        currentEnemy = 0;
+    }
 }
 
 

@@ -22,15 +22,30 @@ Player::Player(Arduboy2 &arduboy) {
 
   shot.speed = 0.1f;
   shot.sprite = 0;
+
+  shot.x = 0;
+  shot.y = 0;
+  shot.onScreen = false;
 }
 
 void Player::updateShot() {
-  shot.hitbox.x = x;
-  shot.hitbox.y = y; 
+    if (shot.onScreen == false) {
+        return;
+    }
+    
+    shot.hitbox.x = x;
+    shot.hitbox.y = y; 
 
-  shot.y2 -= shot.speed;
+//  shot.y2 -= shot.speed;
 
-  shot.y = shot.y2;
+//  shot.y = shot.y2;
+
+    shot.y--;
+  
+  if (shot.y < 1) {
+    shot.onScreen = false;  
+  }
+
 }
 
 Rect Player::getHitbox() {
@@ -43,18 +58,14 @@ void Player::moveLeft() {
   }
 
   x--;
-  //xtest -= 0.1f;
-  //x = xtest;
 }
 
 void Player::moveRight() {
-  if (x >= 127) {
+  if (x >= (127 - PLAYER_WIDTH)) {
     return;
   }
 
   x++;
-  //xtest += 0.1f;
- // x = xtest;
 }
 
 void Player::setState(int newstate) {
@@ -66,18 +77,17 @@ int Player::getScore() {
 }
 
 void Player::draw() {
-  ardu->drawBitmap(x,y,PlayerBMP,13,8);  
+    ardu->drawBitmap(x,y,PlayerBMP,13,8);  
 
-  //Shot
-  if (shot.y < 0) {
-    shot.onScreen = false;  
-  }
-
+    //Shot
+    if (shot.onScreen == true) {
+        ardu->drawFastVLine(shot.x,shot.y,3);
+    }
+  
 //  shot.y2 -= shot.speed;
 //
 //  shot.y = shot.y2;
 
-  ardu->drawFastVLine(shot.x,shot.y,3);
 
 //  shot.hitbox.x = x;
 //  shot.hitbox.y = y;  
@@ -86,8 +96,12 @@ void Player::draw() {
 
 
 void Player::shoot() {
-  shot.onScreen = true;
-  shot.x = x;
-  shot.y = y;  
+    if (shot.onScreen == true) {
+        return;
+    }
+    
+    shot.onScreen = true;
+    shot.x = x + 6;
+    shot.y = y - 3;  
 }
 

@@ -8,7 +8,7 @@
 typedef struct {
   uint8_t x;
   uint8_t y;
-  bool alive; 
+  bool alive;
   uint8_t bitmap; //Bitmap in number
   Shot_t shot;
   Rect hitbox;
@@ -42,7 +42,7 @@ private:
   int randomEnemy1; //Number in array
   int randomEnemy2;
   int currentEnemy;
-  int enemyStep;
+  byte enemyDir;
 };
 
 #endif //_Enemies_h

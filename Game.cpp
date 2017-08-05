@@ -7,6 +7,7 @@ Game::Game(Arduboy2 &arduboy, Enemies &enemies, Timer &timer) {
   this->timer = &timer;
 
   this->player = new Player(arduboy);
+  this->playerShot = new Shot(arduboy);
 }
 
 void Game::setPause(bool state) {
@@ -38,7 +39,8 @@ void Game::update() {
   } else if (ardu->pressed(RIGHT_BUTTON)) {
     player->moveRight();  
   } else if (ardu->pressed(B_BUTTON)) {
-    player->shoot();  
+//    player->shoot();  
+    playerShot->fire(player->getPos());
   } else if (ardu->pressed(A_BUTTON)) {
     player->shoot();  
   } else if (ardu->justPressed(UP_BUTTON)) {
@@ -51,13 +53,17 @@ void Game::update() {
   
   //Player
   player->updateShot();
+  playerShot->update();
 
   //AI
-//  enemies->update();
+  enemies->update();
 //  enemies->shoot();
 
   //Collision
 //  collisionPlayer();
+  if (enemies->collide(playerShot->getHitBox())) {
+    playerShot->clear();
+  }
   
 }
 
@@ -68,8 +74,9 @@ void Game::draw() {
 //    animframe = 1;
 //  }
   
+  player->draw();
+  playerShot->draw();
   enemies->draw(animframe);
-  player->draw();  
 }
 
 

@@ -20,8 +20,8 @@ Player::Player(Arduboy2 &arduboy) {
   shot.hitbox.width = 1;
   shot.hitbox.height = 3;
 
-  shot.speed = 0.1f;
-  shot.sprite = 0;
+//  shot.speed = 0.1f;
+//  shot.sprite = 0;
 
   shot.x = 0;
   shot.y = 0;
@@ -103,5 +103,34 @@ void Player::shoot() {
     shot.onScreen = true;
     shot.x = x + 6;
     shot.y = y - 3;  
+}
+
+
+Rect Player::getShotPos() {
+    Rect shotPos;
+    shotPos.x = shot.x;
+    shotPos.y = shot.y;
+    shotPos.width = 1;
+    shotPos.height = 1;
+    return shotPos;    
+}
+
+Shot_t Player::getShot() {
+    return shot;
+}
+
+byte Player::getX() {
+    return x;
+}
+
+byte Player::getY() {
+    return y;
+}
+
+Point Player::getPos() {
+    Point p;
+    p.x = x;
+    p.y = y;
+    return p;
 }
 

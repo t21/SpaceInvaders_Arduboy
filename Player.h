@@ -24,6 +24,12 @@ public:
   Rect getHitbox();
 
   void updateShot();
+  Rect getShotPos();
+  Shot_t getShot();
+  byte getX();
+  byte getY();
+  Point getPos();
+  
 private:
   Arduboy2 *ardu;
   byte x;

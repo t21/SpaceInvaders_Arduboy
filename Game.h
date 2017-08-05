@@ -4,6 +4,7 @@
 #include <Arduboy2.h>
 #include "Enemies.h"
 #include "Player.h"
+#include "Shot.h"
 #include "Timer.h"
 
 class Game {
@@ -23,6 +24,7 @@ public:
 private:
   Arduboy2 *ardu;
   Player *player;
+  Shot *playerShot;
   Enemies *enemies;
   Timer *timer;
 

@@ -24,8 +24,8 @@
 typedef struct {
   uint8_t x;
   uint8_t y;
-  float y2;
-  float speed;
+//  float y2;
+//  float speed;
   bool onScreen;
   byte sprite; //0 = Line | 1 = Special 
   Rect hitbox;

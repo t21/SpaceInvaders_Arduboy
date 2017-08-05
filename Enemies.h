@@ -4,6 +4,7 @@
 #include <Arduboy2.h>
 #include "Defines.h"
 #include "Bitmaps.h"
+#include "Player.h"
 
 typedef struct {
   uint8_t x;
@@ -28,7 +29,9 @@ public:
   int getRandomEnemy1();
   int getRandomEnemy2();
 
-  void moveDown(); //y += spritesize
+//  void moveDown(); //y += spritesize
+
+  bool collide(Rect shot);
 
   
   
